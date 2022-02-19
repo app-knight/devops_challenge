@@ -2,15 +2,15 @@ version: "3.9"
     
 services:
   db:
-    image: mysql:5.7
+    image: mysql:8.0
     volumes:
       - db_data:/var/lib/mysql
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: somewordpress
-      MYSQL_DATABASE: wordpress
-      MYSQL_USER: wordpress
-      MYSQL_PASSWORD: wordpress
+      MYSQL_ROOT_PASSWORD: zT7xeJeUgxuHS9Ew
+      MYSQL_DATABASE: wp_genesis
+      MYSQL_USER: wp_user
+      MYSQL_PASSWORD: c4KcZQwqyS9E48Ra
       
   wordpress:
     depends_on:
@@ -19,13 +19,13 @@ services:
     volumes:
       - wordpress_data:/var/www/html
     ports:
-      - "80:80"
+      - 80:80
     restart: always
     environment: &env
-      WORDPRESS_DB_HOST: db
-      WORDPRESS_DB_USER: wordpress
-      WORDPRESS_DB_PASSWORD: wordpress
-      WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_USER: wp_user
+      WORDPRESS_DB_PASSWORD: c4KcZQwqyS9E48Ra
+      WORDPRESS_DB_NAME: wp_genesis
       WORDPRESS_TABLE_PREFIX: "wp_"
     
   wordpress-cli:
@@ -37,8 +37,8 @@ services:
       <<: *env
     command: >
       /bin/sh -c '
-      sleep 10;
-      wp core install --path="/var/www/html" --url="http://localhost" --title="Local Wordpress for Genesis DevOps School" --admin_user=admin --admin_password=genesis --admin_email=pb@itaslife.com
+      sleep 30;
+      wp core install --path="/var/www/html" --url="http://localhost" --title="Local Wordpress for Genesis DevOps School" --admin_user="admin" --admin_password="genesis" --admin_email="pb@itaslife.com";
       '
     volumes:
       - wordpress_data:/var/www/html
