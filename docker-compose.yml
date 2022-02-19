@@ -11,6 +11,7 @@ services:
       MYSQL_DATABASE: wp_genesis
       MYSQL_USER: wp_user
       MYSQL_PASSWORD: c4KcZQwqyS9E48Ra
+    command: '--default-authentication-plugin=mysql_native_password'
       
   wordpress:
     depends_on:
@@ -22,11 +23,12 @@ services:
       - 80:80
     restart: always
     environment: &env
-      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_HOST: db
       WORDPRESS_DB_USER: wp_user
       WORDPRESS_DB_PASSWORD: c4KcZQwqyS9E48Ra
       WORDPRESS_DB_NAME: wp_genesis
       WORDPRESS_TABLE_PREFIX: "wp_"
+    
     
   wordpress-cli:
     depends_on:
@@ -37,7 +39,7 @@ services:
       <<: *env
     command: >
       /bin/sh -c '
-      sleep 30;
+      sleep 10;
       wp core install --path="/var/www/html" --url="http://localhost" --title="Local Wordpress for Genesis DevOps School" --admin_user="admin" --admin_password="genesis" --admin_email="pb@itaslife.com";
       '
     volumes:
